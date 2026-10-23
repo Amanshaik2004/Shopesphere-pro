@@ -1,0 +1,297 @@
+{
+  "info": {
+    "name": "ShopSphere Pro API Collection",
+    "description": "Comprehensive Postman collection for ShopSphere Pro enterprise e-commerce backend (50 Modules).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:8000/api/v1"
+    },
+    {
+      "key": "accessToken",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "01 Authentication",
+      "item": [
+        {
+          "name": "Super Admin Login",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"superadmin@shopsphere.com\",\n  \"password\": \"SuperAdmin123!\"\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"]}
+          }
+        },
+        {
+          "name": "Customer Login",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"customer@shopsphere.com\",\n  \"password\": \"Password123!\"\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"]}
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}"}],
+            "url": {"raw": "{{baseUrl}}/auth/logout", "host": ["{{baseUrl}}"], "path": ["auth", "logout"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 Users",
+      "item": [
+        {
+          "name": "List Users",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}"}],
+            "url": {"raw": "{{baseUrl}}/users?page=1&page_size=20", "host": ["{{baseUrl}}"], "path": ["users"]}
+          }
+        },
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"staff@shopsphere.com\",\n  \"password\": \"Password123!\",\n  \"full_name\": \"Staff Member\",\n  \"role\": \"support_agent\"\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/users", "host": ["{{baseUrl}}"], "path": ["users"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 Customers",
+      "item": [
+        {
+          "name": "Customer Registration",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"newcustomer@example.com\",\n  \"password\": \"SecretPass123!\",\n  \"full_name\": \"Emily Rose\",\n  \"phone_number\": \"+1-555-443-2211\"\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/customers/register", "host": ["{{baseUrl}}"], "path": ["customers", "register"]}
+          }
+        },
+        {
+          "name": "Verify Customer Email",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token_or_email\": \"newcustomer@example.com\"\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/customers/verify-email", "host": ["{{baseUrl}}"], "path": ["customers", "verify-email"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 Profiles & 05 Addresses",
+      "item": [
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}"}],
+            "url": {"raw": "{{baseUrl}}/profile", "host": ["{{baseUrl}}"], "path": ["profile"]}
+          }
+        },
+        {
+          "name": "Create Address",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"address_type\": \"shipping\",\n  \"full_name\": \"John Doe\",\n  \"phone\": \"+15551234567\",\n  \"street_address\": \"742 Evergreen Terrace\",\n  \"city\": \"Springfield\",\n  \"state\": \"OR\",\n  \"postal_code\": \"97477\",\n  \"country\": \"United States\",\n  \"is_default\": true\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/addresses", "host": ["{{baseUrl}}"], "path": ["addresses"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 Products & Catalog",
+      "item": [
+        {
+          "name": "List Products",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{baseUrl}}/products", "host": ["{{baseUrl}}"], "path": ["products"]}
+          }
+        },
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Sony WH-1000XM5 Headphones\",\n  \"slug\": \"sony-wh-1000xm5\",\n  \"description\": \"Industry leading noise canceling headphones\",\n  \"category_id\": 1,\n  \"brand_id\": 1,\n  \"sku\": \"SONY-WH1000XM5\",\n  \"base_price\": 399.99,\n  \"sale_price\": 349.99,\n  \"is_active\": true\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/products", "host": ["{{baseUrl}}"], "path": ["products"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "17 Cart & 24 Checkout",
+      "item": [
+        {
+          "name": "Add to Cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": 1,\n  \"quantity\": 1\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/cart/items", "host": ["{{baseUrl}}"], "path": ["cart", "items"]}
+          }
+        },
+        {
+          "name": "Calculate Cart Summary",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"shipping_method_id\": 1,\n  \"coupon_code\": \"WELCOME20\",\n  \"country\": \"United States\"\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/cart/calculate", "host": ["{{baseUrl}}"], "path": ["cart", "calculate"]}
+          }
+        },
+        {
+          "name": "Checkout Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"shipping_address_id\": 1,\n  \"shipping_method_id\": 1,\n  \"coupon_code\": \"WELCOME20\",\n  \"payment_method\": \"stripe\"\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/checkout", "host": ["{{baseUrl}}"], "path": ["checkout"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "29 Payments & 31 Refunds",
+      "item": [
+        {
+          "name": "Process Payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_id\": 1,\n  \"payment_method\": \"stripe\",\n  \"idempotency_key\": \"unique_idem_12345\"\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/payments/process", "host": ["{{baseUrl}}"], "path": ["payments", "process"]}
+          }
+        },
+        {
+          "name": "Process Refund",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_id\": 1,\n  \"amount\": 50.00,\n  \"reason\": \"Customer request\"\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/refunds", "host": ["{{baseUrl}}"], "path": ["refunds"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "47 Dashboard & 49 Exports",
+      "item": [
+        {
+          "name": "Dashboard Summary",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}"}],
+            "url": {"raw": "{{baseUrl}}/dashboard/summary", "host": ["{{baseUrl}}"], "path": ["dashboard", "summary"]}
+          }
+        },
+        {
+          "name": "Export Orders CSV",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}"}],
+            "url": {"raw": "{{baseUrl}}/exports/orders/csv", "host": ["{{baseUrl}}"], "path": ["exports", "orders", "csv"]}
+          }
+        },
+        {
+          "name": "Export Orders Excel",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}"}],
+            "url": {"raw": "{{baseUrl}}/exports/orders/excel", "host": ["{{baseUrl}}"], "path": ["exports", "orders", "excel"]}
+          }
+        },
+        {
+          "name": "Export Orders PDF",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}"}],
+            "url": {"raw": "{{baseUrl}}/exports/orders/pdf", "host": ["{{baseUrl}}"], "path": ["exports", "orders", "pdf"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "50 Health Check",
+      "request": {
+        "method": "GET",
+        "url": {"raw": "{{baseUrl}}/health", "host": ["{{baseUrl}}"], "path": ["health"]}
+      }
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "shopsphere-pro"
+version = "1.0.0"
+description = "ShopSphere Pro - Complete Enterprise E-Commerce Platform Backend (50 Modules)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.30.0",
+    "pydantic>=2.8.0",
+    "pydantic-settings>=2.4.0",
+    "sqlalchemy>=2.0.30",
+    "pymysql>=1.1.0",
+    "alembic>=1.13.0",
+    "pyjwt>=2.9.0",
+    "bcrypt>=4.2.0",
+    "python-multipart>=0.0.9",
+    "openpyxl>=3.1.5",
+    "reportlab>=4.2.0",
+    "httpx>=0.27.0",
+    "stripe>=10.0.0",
+    "pillow>=10.4.0",
+    "python-dotenv>=1.0.1"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
