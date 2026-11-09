@@ -10,6 +10,7 @@ class UserRole(str, Enum):
     CUSTOMER = "customer"
     DELIVERY_MANAGER = "delivery_manager"
     FINANCE_MANAGER = "finance_manager"
+    SELLER = "seller"
 
 
 class UserStatus(str, Enum):
@@ -139,3 +140,98 @@ class AuditAction(str, Enum):
     STATUS_CHANGE = "status_change"
     AUTH_LOGIN = "auth_login"
     AUTH_LOGOUT = "auth_logout"
+    FINANCIAL_ADJUSTMENT = "financial_adjustment"
+    PERMISSION_CHANGE = "permission_change"
+    ACCOUNT_RESTRICTION = "account_restriction"
+
+
+class OrderItemFulfillmentStatus(str, Enum):
+    PENDING = "PENDING"
+    PROCESSING = "PROCESSING"
+    PARTIALLY_FULFILLED = "PARTIALLY_FULFILLED"
+    FULFILLED = "FULFILLED"
+    CANCELLED = "CANCELLED"
+    BACKORDERED = "BACKORDERED"
+
+
+class PromotionType(str, Enum):
+    PRODUCT = "PRODUCT"
+    CATEGORY = "CATEGORY"
+    CART = "CART"
+    CUSTOMER_SEGMENT = "CUSTOMER_SEGMENT"
+
+
+class LoyaltyTier(str, Enum):
+    BRONZE = "BRONZE"
+    SILVER = "SILVER"
+    GOLD = "GOLD"
+    PLATINUM = "PLATINUM"
+
+
+class LoyaltyTransactionType(str, Enum):
+    EARN = "EARN"
+    REDEEM = "REDEEM"
+    EXPIRE = "EXPIRE"
+    REVERSAL = "REVERSAL"
+    ADJUSTMENT = "ADJUSTMENT"
+
+
+class ReservationStatus(str, Enum):
+    ACTIVE = "ACTIVE"
+    RELEASED = "RELEASED"
+    FULFILLED = "FULFILLED"
+    EXPIRED = "EXPIRED"
+
+
+class WarrantyStatus(str, Enum):
+    PENDING = "PENDING"
+    APPROVED = "APPROVED"
+    REJECTED = "REJECTED"
+    REPAIRED = "REPAIRED"
+    REPLACED = "REPLACED"
+
+
+class SellerStatus(str, Enum):
+    PENDING = "PENDING"
+    APPROVED = "APPROVED"
+    REJECTED = "REJECTED"
+    SUSPENDED = "SUSPENDED"
+
+
+class SettlementStatus(str, Enum):
+    PENDING = "PENDING"
+    SETTLED = "SETTLED"
+    DISPUTED = "DISPUTED"
+
+
+class SupportCaseCategory(str, Enum):
+    ORDER = "order"
+    BILLING = "billing"
+    PAYMENT = "payment"
+    RETURN = "return"
+    PRODUCT = "product"
+    DISPUTE = "dispute"
+    CHARGEBACK = "chargeback"
+    GENERAL = "general"
+
+
+class SupportCaseStatus(str, Enum):
+    OPEN = "open"
+    IN_PROGRESS = "in_progress"
+    ESCALATED = "escalated"
+    RESOLVED = "resolved"
+    CLOSED = "closed"
+
+
+class IntegrationServiceType(str, Enum):
+    PAYMENT = "payment"
+    SHIPPING = "shipping"
+    EMAIL = "email"
+    SMS = "sms"
+
+
+class IntegrationStatus(str, Enum):
+    SUCCESS = "success"
+    RECOVERABLE_FAILURE = "recoverable_failure"
+    FATAL_FAILURE = "fatal_failure"
+

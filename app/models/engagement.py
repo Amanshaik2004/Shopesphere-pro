@@ -83,6 +83,7 @@ class Notification(Base):
     notification_type: Mapped[str] = mapped_column(String(50), default="INFO", nullable=False)
     is_read: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     data: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    deduplication_key: Mapped[Optional[str]] = mapped_column(String(255), unique=True, index=True, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
 
 
@@ -98,3 +99,13 @@ class NotificationDeliveryLog(Base):
     error_message: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     sent_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+
+
+class CustomerNotificationPreference(Base):
+    __tablename__ = "customer_notification_preferences"
+
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True, nullable=False)
+    channel: Mapped[NotificationChannel] = mapped_column(SQLEnum(NotificationChannel), nullable=False)
+    event_type: Mapped[str] = mapped_column(String(50), nullable=False)
+    is_enabled: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)

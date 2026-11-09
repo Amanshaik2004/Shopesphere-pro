@@ -1,0 +1,2504 @@
+{
+  "info": {
+    "name": "ShopSphere Pro - Phase 2 Advanced Backend API Collection",
+    "description": "Complete Postman API test collection for Phase 2 advanced backend modules: Order Management, Payments/Refunds, Promotions/Pricing, Loyalty, Customer Segmentation, Inventory, Returns/Warranty, Seller Marketplace, Support Cases, Notifications, Reports, and External Integrations.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:8000/api/v1"
+    },
+    {
+      "key": "adminToken",
+      "value": ""
+    },
+    {
+      "key": "sellerToken",
+      "value": ""
+    },
+    {
+      "key": "customerToken",
+      "value": ""
+    },
+    {
+      "key": "supportToken",
+      "value": ""
+    },
+    {
+      "key": "inventoryToken",
+      "value": ""
+    },
+    {
+      "key": "financeToken",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "00 Authentication & Role Setup",
+      "item": [
+        {
+          "name": "Super Admin Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"superadmin@shopsphere.com\",\n  \"password\": \"SuperAdmin123!\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Seller Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"seller@shopsphere.com\",\n  \"password\": \"Password123!\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Customer Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"customer@shopsphere.com\",\n  \"password\": \"Password123!\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Support Agent Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"supportagent@shopsphere.com\",\n  \"password\": \"Password123!\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Inventory Manager Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"inventorymanager@shopsphere.com\",\n  \"password\": \"Password123!\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Finance Manager Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"financemanager@shopsphere.com\",\n  \"password\": \"Password123!\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "01 Advanced Order Management",
+      "item": [
+        {
+          "name": "Get Order Timeline",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/orders/1/timeline",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "1",
+                "timeline"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Order Fulfillment Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/orders/1/fulfillment",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "1",
+                "fulfillment"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Admin Split Shipment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/orders/1/split-shipment",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "1",
+                "split-shipment"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"order_item_id\": 1,\n      \"quantity\": 1\n    }\n  ],\n  \"carrier_id\": 1,\n  \"tracking_number\": \"SPLIT-TRK-9901\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Cancel Specific Item",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/orders/1/cancel-item",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "1",
+                "cancel-item"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_item_id\": 1,\n  \"quantity\": 1,\n  \"reason\": \"Customer requested cancellation of item\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Backorder Item",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/orders/1/backorder-item",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "1",
+                "backorder-item"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_item_id\": 1,\n  \"quantity\": 1,\n  \"notes\": \"Awaiting new shipment from supplier\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Complete Partial Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/orders/1/complete-partial",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "1",
+                "complete-partial"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Non-deliverable item cancelled, remainder fulfilled\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Admin Order Update",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/orders/1/admin-update",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "1",
+                "admin-update"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"processing\",\n  \"reason\": \"Manual staff status progression\",\n  \"notes\": \"Customer requested expedited packing\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 Advanced Payments & Refunds",
+      "item": [
+        {
+          "name": "Process Payment (Idempotent)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/payments/process",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "payments",
+                "process"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_id\": 1,\n  \"payment_method\": \"mock\",\n  \"idempotency_key\": \"pay_idem_001\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Reconcile Payment Status",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{financeToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/payments/1/reconcile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "payments",
+                "1",
+                "reconcile"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notes\": \"Matched with bank wire settlement log\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Handle Payment Callback (Webhook)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/payments/callback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "payments",
+                "callback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"gateway\": \"stripe\",\n  \"event_type\": \"charge.succeeded\",\n  \"payment_id\": 1,\n  \"status\": \"successful\",\n  \"amount\": 150.0,\n  \"raw_data\": {\n    \"charge_id\": \"ch_test_9988\"\n  }\n}"
+            }
+          }
+        },
+        {
+          "name": "Process Partial Refund (Idempotent)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{financeToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/refunds",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "refunds"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_id\": 1,\n  \"amount\": 35.0,\n  \"reason\": \"Partial return satisfaction\",\n  \"idempotency_key\": \"ref_idem_001\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Payment Exceptions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{financeToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/payments/exceptions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "payments",
+                "exceptions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Resolve Payment Exception",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{financeToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/payments/1/resolve-exception",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "payments",
+                "1",
+                "resolve-exception"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notes\": \"Resolution verified against processor batch\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Settlement History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{financeToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/payments/settlement-history",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "payments",
+                "settlement-history"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 Advanced Promotions & Pricing Rules",
+      "item": [
+        {
+          "name": "Validate Coupon Code",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/coupons/validate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "coupons",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"WELCOME20\",\n  \"cart_amount\": 150.0\n}"
+            }
+          }
+        },
+        {
+          "name": "Calculate Final Price Breakdown",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/pricing/price-breakdown",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pricing",
+                "price-breakdown"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"product_id\": 1,\n      \"quantity\": 2,\n      \"unit_price\": 100.0,\n      \"category_id\": 1\n    }\n  ],\n  \"coupon_code\": \"WELCOME20\",\n  \"tax_rate\": 0.08,\n  \"shipping_fee\": 15.0\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 Loyalty & Rewards Management",
+      "item": [
+        {
+          "name": "Get My Loyalty Balance",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/loyalty/me/balance",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "loyalty",
+                "me",
+                "balance"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get My Loyalty Transactions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/loyalty/me/transactions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "loyalty",
+                "me",
+                "transactions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Loyalty Earning Rule",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/loyalty/rules",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "loyalty",
+                "rules"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"VIP Earning Rule\",\n  \"tier\": \"gold\",\n  \"points_per_dollar\": 2.0,\n  \"min_order_amount\": 50.0,\n  \"redemption_rate\": 0.01,\n  \"max_redemption_percentage\": 50.0\n}"
+            }
+          }
+        },
+        {
+          "name": "List Loyalty Rules",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/loyalty/rules",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "loyalty",
+                "rules"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Credit Points for Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/loyalty/credit-order/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "loyalty",
+                "credit-order",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Redeem Points for Checkout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/loyalty/redeem",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "loyalty",
+                "redeem"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_id\": 1,\n  \"points\": 500\n}"
+            }
+          }
+        },
+        {
+          "name": "Reverse Order Loyalty Points",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/loyalty/reverse",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "loyalty",
+                "reverse"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_id\": 1,\n  \"reason\": \"Order cancelled by customer\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Admin Adjust Customer Points",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/loyalty/adjust",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "loyalty",
+                "adjust"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_id\": 2,\n  \"points\": 100,\n  \"reason\": \"Customer satisfaction goodwill adjustment\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Expire Inactive Loyalty Points",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/loyalty/expire-points",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "loyalty",
+                "expire-points"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 Customer Segmentation & Account Controls",
+      "item": [
+        {
+          "name": "Create Customer Segment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/customer-segments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "customer-segments"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"High-Value VIPs\",\n  \"description\": \"Customers with over  total spend\",\n  \"min_spend\": 500.0,\n  \"min_orders\": 3,\n  \"max_purchase_limit\": 5000.0\n}"
+            }
+          }
+        },
+        {
+          "name": "List Customer Segments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/customer-segments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "customer-segments"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Add Member to Segment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/customer-segments/1/members/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "customer-segments",
+                "1",
+                "members",
+                "2"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Auto Evaluate Segment Members",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/customer-segments/1/auto-evaluate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "customer-segments",
+                "1",
+                "auto-evaluate"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Add Customer Tag",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/customer-segments/tags",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "customer-segments",
+                "tags"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_id\": 2,\n  \"tag\": \"early-adopter\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Customer Tags",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/customer-segments/tags/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "customer-segments",
+                "tags",
+                "2"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Add Account Note",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{supportToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/customer-segments/notes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "customer-segments",
+                "notes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_id\": 2,\n  \"note\": \"VIP Client - Expedite all shipments.\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Account Notes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{supportToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/customer-segments/notes/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "customer-segments",
+                "notes",
+                "2"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Suspend Customer Account",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/customer-segments/customers/2/suspend",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "customer-segments",
+                "customers",
+                "2",
+                "suspend"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Payment fraud suspicion\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Reactivate Customer Account",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/customer-segments/customers/2/reactivate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "customer-segments",
+                "customers",
+                "2",
+                "reactivate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Identity verified by staff\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Apply Account Purchase Restrictions",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/customer-segments/customers/2/restrict",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "customer-segments",
+                "customers",
+                "2",
+                "restrict"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"purchase_limit\": 100.0,\n  \"notes\": \"Credit verification pending\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 Advanced Inventory & Fulfilment",
+      "item": [
+        {
+          "name": "Reserve Inventory for Checkout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/inventory/reserve",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "inventory",
+                "reserve"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": 1,\n  \"warehouse_id\": 1,\n  \"quantity\": 2,\n  \"order_id\": 1,\n  \"expires_in_minutes\": 30\n}"
+            }
+          }
+        },
+        {
+          "name": "Release Expired Reservations",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{inventoryToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/inventory/reservations/release-expired",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "inventory",
+                "reservations",
+                "release-expired"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Inventory Batch",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{inventoryToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/inventory/batches",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "inventory",
+                "batches"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"batch_number\": \"BATCH-2026-X1\",\n  \"product_id\": 1,\n  \"warehouse_id\": 1,\n  \"quantity\": 100,\n  \"manufactured_date\": \"2026-01-01\",\n  \"expiry_date\": \"2027-01-01\"\n}"
+            }
+          }
+        },
+        {
+          "name": "List Inventory Batches",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{inventoryToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/inventory/batches",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "inventory",
+                "batches"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Warehouse Availability Overview",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{inventoryToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/inventory/warehouse-availability",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "inventory",
+                "warehouse-availability"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Record Stock Discrepancy",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{inventoryToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/inventory/discrepancies/record",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "inventory",
+                "discrepancies",
+                "record"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"warehouse_id\": 1,\n  \"product_id\": 1,\n  \"expected_quantity\": 100,\n  \"counted_quantity\": 95,\n  \"reason\": \"Damaged packaging during unloading\"\n}"
+            }
+          }
+        },
+        {
+          "name": "List Stock Discrepancies",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{inventoryToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/inventory/discrepancies",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "inventory",
+                "discrepancies"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Reconcile Discrepancy",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{inventoryToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/inventory/discrepancies/1/reconcile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "inventory",
+                "discrepancies",
+                "1",
+                "reconcile"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notes\": \"Written off damaged units as approved by warehouse manager\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 Returns, Exchanges & Warranty",
+      "item": [
+        {
+          "name": "Submit Return Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/returns",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "returns"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_id\": 1,\n  \"items\": [\n    {\n      \"order_item_id\": 1,\n      \"quantity\": 1,\n      \"reason\": \"Defective device\"\n    }\n  ],\n  \"evidence_url\": \"https://s3.amazonaws.com/evidence/defect.png\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Inspect and Restock Return",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{supportToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/returns/1/inspect",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "returns",
+                "1",
+                "inspect"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"outcome\": \"approved\",\n  \"notes\": \"Product intact in original package\",\n  \"auto_restock\": true,\n  \"auto_refund\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Submit Warranty Claim",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/warranty/claims",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "warranty",
+                "claims"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_id\": 1,\n  \"product_id\": 1,\n  \"serial_number\": \"SN-998877A\",\n  \"issue_description\": \"Audio crackling on left earbud\"\n}"
+            }
+          }
+        },
+        {
+          "name": "List Warranty Claims",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{supportToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/warranty/claims",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "warranty",
+                "claims"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Review Warranty Claim",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{supportToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/warranty/claims/1/review",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "warranty",
+                "claims",
+                "1",
+                "review"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"approved\",\n  \"resolution_notes\": \"Authorized replacement unit under 1-year manufacturer warranty\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 Seller & Marketplace Operations",
+      "item": [
+        {
+          "name": "Seller Onboarding Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{sellerToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sellers/onboard",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sellers",
+                "onboard"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"company_name\": \"Acme Electronics Global\",\n  \"tax_id\": \"US-9988776655\",\n  \"bank_account_details\": \"Chase Bank NA, Routing: 021000021, Acct: 99881122\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Seller Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{sellerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sellers/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sellers",
+                "profile"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Admin List Sellers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sellers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sellers"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Admin Review Seller",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sellers/1/review",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sellers",
+                "1",
+                "review"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"approved\",\n  \"commission_rate\": 10.0,\n  \"notes\": \"Onboarding KYC documents verified\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Seller Create Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{sellerToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sellers/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sellers",
+                "products"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Acme Wireless Ergonomic Mouse\",\n  \"slug\": \"acme-ergonomic-mouse\",\n  \"sku\": \"ACME-MSE-01\",\n  \"base_price\": 49.99,\n  \"stock_quantity\": 50,\n  \"category_id\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Seller List My Products",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{sellerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sellers/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sellers",
+                "products"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Seller List My Orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{sellerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sellers/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sellers",
+                "orders"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Seller Fulfill Order Item",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{sellerToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sellers/order-items/1/fulfill",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sellers",
+                "order-items",
+                "1",
+                "fulfill"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"carrier\": \"FedEx\",\n  \"tracking_number\": \"FEDEX-TRK-77112\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Generate Seller Settlements",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{financeToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sellers/settlements/generate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sellers",
+                "settlements",
+                "generate"
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Seller Settlements",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{sellerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sellers/settlements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sellers",
+                "settlements"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Payout Seller Settlement",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{financeToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sellers/settlements/1/payout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sellers",
+                "settlements",
+                "1",
+                "payout"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Seller Sales Performance Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{sellerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sellers/sales-summary",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sellers",
+                "sales-summary"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 Customer Support & Dispute Management",
+      "item": [
+        {
+          "name": "Submit Support Case",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/support-cases",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "support-cases"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"subject\": \"Delivery Delay Inquiry\",\n  \"category\": \"shipping\",\n  \"priority\": \"medium\",\n  \"description\": \"Package has not arrived past estimated delivery date.\",\n  \"order_id\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "List Support Cases",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{supportToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/support-cases",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "support-cases"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Support Case Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{supportToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/support-cases/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "support-cases",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Send Case Message (Agent First Response)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{supportToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/support-cases/1/messages",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "support-cases",
+                "1",
+                "messages"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"Hello, we have contacted carrier FedEx for an immediate dispatch trace.\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Assign Support Case",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{supportToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/support-cases/1/assign",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "support-cases",
+                "1",
+                "assign"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assigned_to_id\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Escalate Support Case",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{supportToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/support-cases/1/escalate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "support-cases",
+                "1",
+                "escalate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Carrier confirmed lost in transit - supervisor review required\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Resolve Support Case",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{supportToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/support-cases/1/resolve",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "support-cases",
+                "1",
+                "resolve"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resolution_notes\": \"Replacement dispatched under expedited shipment.\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Support SLA Metrics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{supportToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/support-cases/metrics",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "support-cases",
+                "metrics"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "10 Notification & Communication Preferences",
+      "item": [
+        {
+          "name": "Get Notification Preferences",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/notifications/preferences",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                "preferences"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Notification Preferences",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/notifications/preferences",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                "preferences"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"channel_email\": true,\n  \"channel_sms\": false,\n  \"channel_in_app\": true,\n  \"notify_order_status\": true,\n  \"notify_promotions\": false\n}"
+            }
+          }
+        },
+        {
+          "name": "Dispatch System Notification (Idempotent)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/notifications/dispatch",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                "dispatch"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": 2,\n  \"title\": \"Shipment Dispatched\",\n  \"message\": \"Your order #ORD-1234 has shipped via FedEx.\",\n  \"channel\": \"in_app\",\n  \"event_type\": \"order_shipped\",\n  \"deduplication_key\": \"notif_dedup_001\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Notification History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/notifications/history",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                "history"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "11 Advanced Reports & Business Metrics",
+      "item": [
+        {
+          "name": "Advanced Sales Report",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reports/sales-advanced?start_date=2026-01-01&end_date=2026-12-31",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "sales-advanced"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Financial Summary Report",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{financeToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reports/financial-summary?start_date=2026-01-01&end_date=2026-12-31",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "financial-summary"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Inventory Aging Report",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{inventoryToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reports/inventory-aging",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "inventory-aging"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Customer Retention Report",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reports/customer-retention",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "customer-retention"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Export Sales Report to CSV",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reports/export-csv?report_type=sales",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "export-csv"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "12 External Service Integration Management",
+      "item": [
+        {
+          "name": "Configure Integration Service",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/integrations/configs",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "integrations",
+                "configs"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"service_name\": \"Stripe Gateway\",\n  \"service_type\": \"payment\",\n  \"api_base_url\": \"https://api.stripe.com/v1\",\n  \"api_key\": \"sk_test_mock1234567890\",\n  \"is_active\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "List Integration Configurations",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/integrations/configs",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "integrations",
+                "configs"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Process Integration Webhook Callback",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/integrations/callback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "integrations",
+                "callback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"service_name\": \"stripe\",\n  \"event_name\": \"payment_intent.succeeded\",\n  \"payload\": {\n    \"id\": \"pi_34891\",\n    \"amount\": 15000\n  }\n}"
+            }
+          }
+        },
+        {
+          "name": "List Integration Logs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/integrations/logs",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "integrations",
+                "logs"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Retry Failed Integration Job",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/integrations/1/retry",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "integrations",
+                "1",
+                "retry"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Check Integration Services Health",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/integrations/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "integrations",
+                "health"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "13 Audit, Security & Operational Controls",
+      "item": [
+        {
+          "name": "View Sensitive Action Audit Logs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/audit-logs?page=1&page_size=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "audit-logs"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

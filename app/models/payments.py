@@ -17,6 +17,8 @@ class Payment(Base, TimestampMixin):
     transaction_ref: Mapped[Optional[str]] = mapped_column(String(255), unique=True, index=True, nullable=True)
     gateway_response: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     idempotency_key: Mapped[Optional[str]] = mapped_column(String(255), unique=True, index=True, nullable=True)
+    reconciled: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    reconciliation_notes: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
 
     transactions: Mapped[List["PaymentTransaction"]] = relationship("PaymentTransaction", back_populates="payment", cascade="all, delete-orphan")
     refunds: Mapped[List["Refund"]] = relationship("Refund", back_populates="payment", cascade="all, delete-orphan")
@@ -65,3 +67,17 @@ class CODRecord(Base, TimestampMixin):
     reconciled: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     reconciliation_date: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
     notes: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+
+
+class PaymentExceptionLog(Base):
+    __tablename__ = "payment_exception_logs"
+
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    payment_id: Mapped[Optional[int]] = mapped_column(ForeignKey("payments.id", ondelete="SET NULL"), nullable=True, index=True)
+    order_id: Mapped[Optional[int]] = mapped_column(ForeignKey("orders.id", ondelete="SET NULL"), nullable=True, index=True)
+    exception_type: Mapped[str] = mapped_column(String(50), nullable=False)
+    details: Mapped[str] = mapped_column(Text, nullable=False)
+    status: Mapped[str] = mapped_column(String(50), default="UNRESOLVED", nullable=False)
+    resolved_by_id: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
+    resolution_notes: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)

@@ -9,7 +9,7 @@ from app.common.dependencies import require_roles
 from app.common.enums import UserRole, AuditAction
 from app.core.exceptions import NotFoundError, ConflictError
 from app.core.audit import log_audit
-from app.modules.coupons.schemas import CouponCreate, CouponUpdate, CouponOut
+from app.modules.coupons.schemas import CouponCreate, CouponUpdate, CouponOut, CouponValidateRequest, CouponValidateResponse
 
 router = APIRouter(prefix="/coupons", tags=["Module 20: Coupon Management"])
 
@@ -88,3 +88,66 @@ def delete_coupon(
     db.commit()
     log_audit(db, AuditAction.DELETE, "Coupon", str(coupon_id), current_user.id)
     return ResponseSchema(message="Coupon deleted successfully", data=MessageResponse(message="Coupon removed"))
+
+@router.post("/validate", response_model=ResponseSchema[CouponValidateResponse])
+def validate_coupon(
+    data: CouponValidateRequest,
+    db: Session = Depends(get_db)
+):
+    from datetime import datetime, timezone
+    from app.common.enums import DiscountType
+    code = data.code.upper().strip()
+    coupon = db.query(Coupon).filter(Coupon.code == code).first()
+    if not coupon:
+        return ResponseSchema(
+            message="Invalid coupon code",
+            data=CouponValidateResponse(is_valid=False, discount_amount=0.0, message="Coupon not found")
+        )
+
+    now = datetime.now(timezone.utc)
+    # Handle timezone naive vs aware
+    valid_from = coupon.valid_from.replace(tzinfo=timezone.utc) if coupon.valid_from.tzinfo is None else coupon.valid_from
+    valid_to = coupon.valid_to.replace(tzinfo=timezone.utc) if coupon.valid_to.tzinfo is None else coupon.valid_to
+
+    if not coupon.is_active or now < valid_from or now > valid_to:
+        return ResponseSchema(
+            message="Coupon is expired or inactive",
+            data=CouponValidateResponse(is_valid=False, discount_amount=0.0, message="Coupon is expired or inactive")
+        )
+
+    if coupon.usage_limit and coupon.usage_count >= coupon.usage_limit:
+        return ResponseSchema(
+            message="Coupon usage limit reached",
+            data=CouponValidateResponse(is_valid=False, discount_amount=0.0, message="Coupon usage limit reached")
+        )
+
+    if data.cart_amount < float(coupon.min_purchase_amount):
+        return ResponseSchema(
+            message=f"Cart total ${data.cart_amount} does not meet minimum purchase of ${coupon.min_purchase_amount}",
+            data=CouponValidateResponse(
+                is_valid=False,
+                discount_amount=0.0,
+                message=f"Minimum purchase amount of ${coupon.min_purchase_amount} required"
+            )
+        )
+
+    if coupon.discount_type == DiscountType.PERCENTAGE:
+        discount = round((data.cart_amount * float(coupon.discount_value)) / 100.0, 2)
+    else:
+        discount = float(coupon.discount_value)
+
+    if coupon.max_discount_amount and discount > float(coupon.max_discount_amount):
+        discount = float(coupon.max_discount_amount)
+
+    discount = min(discount, data.cart_amount)
+
+    return ResponseSchema(
+        message="Coupon is valid and eligible",
+        data=CouponValidateResponse(
+            is_valid=True,
+            discount_amount=round(discount, 2),
+            message="Coupon applied successfully",
+            coupon=CouponOut.model_validate(coupon)
+        )
+    )
+

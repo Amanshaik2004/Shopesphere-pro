@@ -18,6 +18,7 @@ class User(Base, TimestampMixin):
     email_verified: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     last_login_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
     deactivation_requested: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    account_restrictions: Mapped[Optional[dict]] = mapped_column(JSON, nullable=True)
 
     # Relationships
     profile: Mapped[Optional["UserProfile"]] = relationship("UserProfile", back_populates="user", uselist=False, cascade="all, delete-orphan")

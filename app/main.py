@@ -1,6 +1,7 @@
 import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.core.config import settings
@@ -59,10 +60,18 @@ from app.modules.reports import router as reports_router
 from app.modules.exports import router as exports_router
 from app.modules.health import router as health_router
 
+# Phase 2 Advanced Modules
+from app.modules.loyalty import router as loyalty_router
+from app.modules.customer_segments import router as customer_segments_router
+from app.modules.warranty import router as warranty_router
+from app.modules.sellers import router as sellers_router
+from app.modules.support_cases import router as support_cases_router
+from app.modules.integrations import router as integrations_router
+
 app = FastAPI(
     title=settings.PROJECT_NAME,
     version=settings.VERSION,
-    description="ShopSphere Pro - Complete Enterprise E-Commerce Platform Backend (50 Modules). Built with FastAPI, MySQL, SQLAlchemy ORM, and JWT RBAC.",
+    description="ShopSphere Pro - Complete Enterprise E-Commerce Platform Backend (Phase 1 + Phase 2 Advanced Modules). Built with FastAPI, MySQL, SQLAlchemy ORM, and JWT RBAC.",
     openapi_url=f"{settings.API_V1_STR}/openapi.json",
     docs_url=f"{settings.API_V1_STR}/docs",
     redoc_url=f"{settings.API_V1_STR}/redoc",
@@ -136,6 +145,22 @@ app.include_router(dashboard_router, prefix=api_prefix)
 app.include_router(reports_router, prefix=api_prefix)
 app.include_router(exports_router, prefix=api_prefix)
 app.include_router(health_router, prefix=api_prefix)
+
+# Phase 2 Routers
+app.include_router(loyalty_router, prefix=api_prefix)
+app.include_router(customer_segments_router, prefix=api_prefix)
+app.include_router(warranty_router, prefix=api_prefix)
+app.include_router(sellers_router, prefix=api_prefix)
+app.include_router(support_cases_router, prefix=api_prefix)
+app.include_router(integrations_router, prefix=api_prefix)
+
+@app.api_route("/docs", methods=["GET", "HEAD"], include_in_schema=False)
+def redirect_to_docs():
+    return RedirectResponse(url=f"{settings.API_V1_STR}/docs")
+
+@app.api_route("/redoc", methods=["GET", "HEAD"], include_in_schema=False)
+def redirect_to_redoc():
+    return RedirectResponse(url=f"{settings.API_V1_STR}/redoc")
 
 @app.get("/")
 def root():

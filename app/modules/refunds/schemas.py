@@ -7,6 +7,7 @@ class RefundRequest(BaseModel):
     order_id: int
     amount: float = Field(gt=0)
     reason: str
+    idempotency_key: Optional[str] = None
 
 class RefundOut(BaseModel):
     id: int

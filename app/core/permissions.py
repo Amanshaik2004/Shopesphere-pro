@@ -15,3 +15,14 @@ require_order_manager = require_roles(UserRole.SUPER_ADMIN, UserRole.ADMIN, User
 require_delivery_manager = require_roles(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.DELIVERY_MANAGER)
 require_finance_manager = require_roles(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.FINANCE_MANAGER)
 require_support_agent = require_roles(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.SUPPORT_AGENT)
+require_seller = require_roles(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.SELLER)
+require_staff = require_roles(
+    UserRole.SUPER_ADMIN,
+    UserRole.ADMIN,
+    UserRole.PRODUCT_MANAGER,
+    UserRole.INVENTORY_MANAGER,
+    UserRole.ORDER_MANAGER,
+    UserRole.DELIVERY_MANAGER,
+    UserRole.FINANCE_MANAGER,
+    UserRole.SUPPORT_AGENT
+)

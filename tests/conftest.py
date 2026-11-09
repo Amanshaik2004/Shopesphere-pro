@@ -18,7 +18,8 @@ from app.models.users import User, UserProfile
 from app.models.catalog import Category, Brand, Product, ProductVariant
 from app.models.inventory import Warehouse, InventoryItem
 from app.models.orders import ShippingMethod, Coupon, TaxRate, Cart
-from app.common.enums import UserRole, UserStatus, DiscountType
+from app.models.sellers import SellerProfile
+from app.common.enums import UserRole, UserStatus, DiscountType, SellerStatus
 from app.core.security import hash_password, create_access_token
 
 # Use SQLite in-memory with StaticPool for ultra-fast, isolated test execution
@@ -114,6 +115,66 @@ def customer_token(customer_user):
 @pytest.fixture
 def customer_headers(customer_token):
     return {"Authorization": f"Bearer {customer_token}"}
+
+@pytest.fixture
+def seller_user(db):
+    user = db.query(User).filter(User.email == "seller_test@shopsphere.com").first()
+    if not user:
+        user = User(
+            email="seller_test@shopsphere.com",
+            hashed_password=hash_password("Seller123!"),
+            full_name="Test Seller",
+            role=UserRole.SELLER,
+            status=UserStatus.ACTIVE,
+            email_verified=True
+        )
+        db.add(user)
+        db.flush()
+        prof = SellerProfile(
+            user_id=user.id,
+            store_name="Test Seller Store",
+            business_name="Test Seller Business",
+            status=SellerStatus.APPROVED,
+            commission_rate=10.0,
+            platform_fee_percent=2.0
+        )
+        db.add(prof)
+        db.commit()
+        db.refresh(user)
+    return user
+
+@pytest.fixture
+def seller_token(seller_user):
+    return create_access_token(subject=seller_user.id, role=seller_user.role.value)
+
+@pytest.fixture
+def seller_headers(seller_token):
+    return {"Authorization": f"Bearer {seller_token}"}
+
+@pytest.fixture
+def finance_user(db):
+    user = db.query(User).filter(User.email == "finance_test@shopsphere.com").first()
+    if not user:
+        user = User(
+            email="finance_test@shopsphere.com",
+            hashed_password=hash_password("Finance123!"),
+            full_name="Test Finance Manager",
+            role=UserRole.FINANCE_MANAGER,
+            status=UserStatus.ACTIVE,
+            email_verified=True
+        )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+    return user
+
+@pytest.fixture
+def finance_token(finance_user):
+    return create_access_token(subject=finance_user.id, role=finance_user.role.value)
+
+@pytest.fixture
+def finance_headers(finance_token):
+    return {"Authorization": f"Bearer {finance_token}"}
 
 @pytest.fixture
 def sample_catalog(db):

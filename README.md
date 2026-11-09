@@ -18,7 +18,7 @@
 
 ---
 
-## 👥 User Roles & Permissions (9 Roles)
+## 👥 User Roles & Permissions (10 Roles)
 
 | Role | Role Identifier | Scope & Capabilities |
 | :--- | :--- | :--- |
@@ -27,10 +27,11 @@
 | **Product Manager** | `product_manager` | Manage categories, brands, products, variants, media, and price rules. |
 | **Inventory Manager**| `inventory_manager`| Warehouses, stock levels, adjustments, low-stock alerts, transfers, and POs. |
 | **Order Manager** | `order_manager` | Order fulfillment, item statuses, state machine transitions, and cancellations. |
-| **Support Agent** | `support_agent` | Customer support tickets, reviews moderation, Q&A responses. |
+| **Support Agent** | `support_agent` | Customer support tickets, reviews moderation, Q&A responses, and dispute cases. |
 | **Customer** | `customer` | Browse catalog, shopping cart, checkout, payment, returns, reviews, profile. |
 | **Delivery Manager** | `delivery_manager` | Shipments, carriers, dispatching, tracking updates, and delivery attempts. |
 | **Finance Manager** | `finance_manager` | Payment transactions, refunds, COD reconciliations, and financial exports. |
+| **Seller** | `seller` | Marketplace onboarding, multi-vendor product listings, seller order fulfillment, payouts. |
 
 ---
 
@@ -159,9 +160,35 @@ Test results verify:
 
 ---
 
-## 📬 Postman Collection
+## 🌟 Phase 2: Advanced Backend Modules (Sections 3.1 to 3.13)
 
-Import `postman/shopsphere_pro_collection.json` into Postman to test requests across modules with preconfigured payloads and authentication tokens.
+Phase 2 introduces enterprise backend capabilities extending operational, seller marketplace, commercial, and financial reconciliation workflows:
+
+| Phase 2 Area | Module Router | Core Endpoints & Capabilities |
+| :--- | :--- | :--- |
+| **3.1 Advanced Orders** | `/api/v1/orders` | Split shipments across carriers, item-level cancellations, backordering, partial completion, and order timelines. |
+| **3.2 Advanced Payments & Refunds** | `/api/v1/payments`, `/api/v1/refunds` | Gateway reconciliation, callback webhooks, duplicate callback idempotency, multiple partial refunds, settlement history. |
+| **3.3 Advanced Promotions & Pricing** | `/api/v1/promotions`, `/api/v1/pricing`, `/api/v1/coupons` | Stacking rules, min cart thresholds, segment & category rules, coupon validation, price breakdown calculation. |
+| **3.4 Loyalty & Rewards** | `/api/v1/loyalty` | Tier balances, points credit upon order completion, checkout redemption, reversal on return, expiry sweep. |
+| **3.5 Customer Segmentation** | `/api/v1/customer-segments` | Automated segment evaluation, customer tags, internal account notes, suspension/reactivation, purchase limits. |
+| **3.6 Advanced Inventory** | `/api/v1/inventory` | Checkout stock reservations with expiry release, batch & expiry tracking, warehouse ATP availability, discrepancy audits. |
+| **3.7 Returns & Warranty** | `/api/v1/returns`, `/api/v1/warranty` | 30-day return eligibility, inspection outcome with auto-restock & auto-refund, manufacturer warranty claims. |
+| **3.8 Seller Operations** | `/api/v1/sellers` | Merchant onboarding & review, seller-owned catalog products, seller order fulfillment, commission & settlement generation. |
+| **3.9 Support & Disputes** | `/api/v1/support-cases` | Support tickets & chargeback disputes, first-response SLA time tracking, escalation, resolution notes, team metrics. |
+| **3.10 Notification Preferences** | `/api/v1/notifications` | Multi-channel opt-in preferences (Email, SMS, In-App), event deduplication keys, alert history. |
+| **3.11 Advanced Reports** | `/api/v1/reports` | Sales reports by date/seller/category, financial summaries, inventory aging analysis, customer retention, streaming CSV export. |
+| **3.12 External Integrations** | `/api/v1/integrations` | External provider configurations (masked secrets), webhook callbacks, retry with backoff, integration health checks. |
+| **3.13 Audit & Security** | `/api/v1/audit-logs` | Immutable audit trail for financial adjustments, permission alterations, and account restrictions. |
+
+For detailed API contracts and schemas, refer to [PHASE_2_HANDOVER_NOTES.md](file:///Users/aman/shopsphere-pro/PHASE_2_HANDOVER_NOTES.md).
+
+---
+
+## 📬 Postman Collections
+
+Pre-configured Postman v2.1.0 collections are provided in `postman/`:
+- **Phase 1 Baseline Collection:** `postman/shopsphere_pro_collection.json`
+- **Phase 2 Advanced Backend Collection:** `postman/shopsphere_pro_phase2_collection.json` (14 folders, 91 requests covering all Phase 2 endpoints, role tokens, and sample request payloads)
 
 ---
 
@@ -171,6 +198,7 @@ Import `postman/shopsphere_pro_collection.json` into Postman to test requests ac
 | :--- | :--- | :--- |
 | **Super Admin** | `superadmin@shopsphere.com` | `SuperAdmin123!` |
 | **Admin** | `admin@shopsphere.com` | `Password123!` |
+| **Seller** | `seller@shopsphere.com` | `Password123!` |
 | **Product Manager** | `productmanager@shopsphere.com` | `Password123!` |
 | **Inventory Manager** | `inventorymanager@shopsphere.com` | `Password123!` |
 | **Order Manager** | `ordermanager@shopsphere.com` | `Password123!` |

@@ -39,3 +39,13 @@ class CouponOut(BaseModel):
 
     class Config:
         from_attributes = True
+
+class CouponValidateRequest(BaseModel):
+    code: str
+    cart_amount: float = Field(gt=0)
+
+class CouponValidateResponse(BaseModel):
+    is_valid: bool
+    discount_amount: float
+    message: str
+    coupon: Optional[CouponOut] = None

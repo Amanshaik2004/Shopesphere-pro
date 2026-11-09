@@ -1,9 +1,9 @@
 from datetime import datetime, timezone
 from typing import Optional, List
-from sqlalchemy import String, Boolean, DateTime, ForeignKey, Integer, Enum as SQLEnum, Text
+from sqlalchemy import String, Boolean, DateTime, ForeignKey, Integer, Numeric, Enum as SQLEnum, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db.base import Base, TimestampMixin
-from app.common.enums import InventoryTransferStatus
+from app.common.enums import InventoryTransferStatus, ReservationStatus
 
 class Warehouse(Base, TimestampMixin):
     __tablename__ = "warehouses"
@@ -101,3 +101,43 @@ class StockAlert(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
 
     inventory_item: Mapped["InventoryItem"] = relationship("InventoryItem", back_populates="alerts")
+
+
+class InventoryReservation(Base):
+    __tablename__ = "inventory_reservations"
+
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    order_id: Mapped[Optional[int]] = mapped_column(ForeignKey("orders.id", ondelete="CASCADE"), nullable=True, index=True)
+    product_id: Mapped[int] = mapped_column(ForeignKey("products.id", ondelete="CASCADE"), nullable=False, index=True)
+    variant_id: Mapped[Optional[int]] = mapped_column(ForeignKey("product_variants.id", ondelete="CASCADE"), nullable=True)
+    warehouse_id: Mapped[int] = mapped_column(ForeignKey("warehouses.id", ondelete="CASCADE"), nullable=False)
+    quantity: Mapped[int] = mapped_column(Integer, nullable=False)
+    status: Mapped[ReservationStatus] = mapped_column(SQLEnum(ReservationStatus), default=ReservationStatus.ACTIVE, nullable=False)
+    expires_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+
+
+class InventoryBatch(Base):
+    __tablename__ = "inventory_batches"
+
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    inventory_item_id: Mapped[int] = mapped_column(ForeignKey("inventory_items.id", ondelete="CASCADE"), nullable=False, index=True)
+    batch_number: Mapped[str] = mapped_column(String(100), index=True, nullable=False)
+    expiry_date: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+    quantity: Mapped[int] = mapped_column(Integer, nullable=False)
+    cost_per_unit: Mapped[float] = mapped_column(Numeric(10, 2), default=0.0, nullable=False)
+    received_date: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+
+
+class StockDiscrepancy(Base):
+    __tablename__ = "stock_discrepancies"
+
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    inventory_item_id: Mapped[int] = mapped_column(ForeignKey("inventory_items.id", ondelete="CASCADE"), nullable=False, index=True)
+    system_quantity: Mapped[int] = mapped_column(Integer, nullable=False)
+    physical_quantity: Mapped[int] = mapped_column(Integer, nullable=False)
+    discrepancy: Mapped[int] = mapped_column(Integer, nullable=False)
+    reason: Mapped[str] = mapped_column(String(255), nullable=False)
+    is_reconciled: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    reconciled_by_id: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)

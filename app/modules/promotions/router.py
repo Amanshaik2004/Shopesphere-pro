@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from app.db.session import get_db
 from app.models.orders import Promotion
 from app.models.catalog import Category, Product
+from app.models.segmentation import CustomerSegment
 from app.models.users import User
 from app.common.responses import ResponseSchema, MessageResponse
 from app.common.dependencies import require_roles
@@ -27,6 +28,8 @@ def create_promotion(
         raise NotFoundError("Category not found")
     if data.product_id and not db.query(Product).filter(Product.id == data.product_id).first():
         raise NotFoundError("Product not found")
+    if data.customer_segment_id and not db.query(CustomerSegment).filter(CustomerSegment.id == data.customer_segment_id).first():
+        raise NotFoundError("Customer segment not found")
 
     promo = Promotion(**data.model_dump())
     db.add(promo)

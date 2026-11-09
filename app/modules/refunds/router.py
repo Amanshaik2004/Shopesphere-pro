@@ -23,8 +23,23 @@ def process_refund(
     db: Session = Depends(get_db)
 ):
     payment = db.query(Payment).filter(Payment.order_id == data.order_id).first()
-    if not payment or payment.status != PaymentStatus.SUCCESSFUL:
-        raise BadRequestError("Cannot refund an order without a successful payment")
+    if not payment or payment.status not in [PaymentStatus.SUCCESSFUL, PaymentStatus.PARTIALLY_REFUNDED]:
+        raise BadRequestError("Cannot refund an order without a successful or partially refunded payment")
+
+    # Idempotency check
+    if data.idempotency_key:
+        existing_txn = db.query(PaymentTransaction).filter(
+            PaymentTransaction.order_id == data.order_id,
+            PaymentTransaction.transaction_type == "REFUND",
+            PaymentTransaction.reference_code == data.idempotency_key
+        ).first()
+        if existing_txn:
+            existing_refund = db.query(Refund).filter(
+                Refund.payment_id == payment.id,
+                Refund.amount == data.amount
+            ).first()
+            if existing_refund:
+                return ResponseSchema(message="Refund already processed (idempotent)", data=RefundOut.model_validate(existing_refund))
 
     # Calculate already refunded sum
     total_refunded = db.query(func.sum(Refund.amount)).filter(
@@ -55,13 +70,14 @@ def process_refund(
     db.add(refund)
 
     # Log refund transaction
+    ref_code = data.idempotency_key or gw_res.get("id", "ref_mock")
     txn = PaymentTransaction(
         payment_id=payment.id,
         order_id=data.order_id,
         transaction_type="REFUND",
         amount=data.amount,
         status=PaymentStatus.SUCCESSFUL,
-        reference_code=gw_res.get("id", "ref_mock"),
+        reference_code=ref_code,
         raw_response=str(gw_res)
     )
     db.add(txn)
@@ -75,10 +91,14 @@ def process_refund(
 
     db.commit()
     db.refresh(refund)
-    log_audit(db, AuditAction.CREATE, "Refund", str(refund.id), current_user.id, new_values=data.model_dump())
+    log_audit(db, AuditAction.FINANCIAL_ADJUSTMENT, "Refund", str(refund.id), current_user.id, new_values=data.model_dump())
     return ResponseSchema(message="Refund processed successfully", data=RefundOut.model_validate(refund))
 
 @router.get("/order/{order_id}", response_model=ResponseSchema[List[RefundOut]])
-def get_refunds_for_order(order_id: int, db: Session = Depends(get_db)):
-    refunds = db.query(Refund).filter(Refund.order_id == order_id).order_by(Refund.created_at.desc()).all()
+def get_order_refunds(
+    order_id: int,
+    current_user: User = Depends(get_current_active_user),
+    db: Session = Depends(get_db)
+):
+    refunds = db.query(Refund).filter(Refund.order_id == order_id).all()
     return ResponseSchema(data=[RefundOut.model_validate(r) for r in refunds])

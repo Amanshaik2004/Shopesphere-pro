@@ -3,7 +3,7 @@ from typing import Optional, List
 from sqlalchemy import String, Boolean, DateTime, ForeignKey, Integer, Numeric, Enum as SQLEnum, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db.base import Base, TimestampMixin
-from app.common.enums import OrderStatus, DiscountType
+from app.common.enums import OrderStatus, DiscountType, PromotionType
 
 class Cart(Base, TimestampMixin):
     __tablename__ = "carts"
@@ -57,10 +57,18 @@ class Promotion(Base, TimestampMixin):
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     description: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    promotion_type: Mapped[PromotionType] = mapped_column(SQLEnum(PromotionType), default=PromotionType.PRODUCT, nullable=False)
     discount_type: Mapped[DiscountType] = mapped_column(SQLEnum(DiscountType), nullable=False)
     discount_value: Mapped[float] = mapped_column(Numeric(10, 2), nullable=False)
     category_id: Mapped[Optional[int]] = mapped_column(ForeignKey("categories.id", ondelete="CASCADE"), nullable=True)
     product_id: Mapped[Optional[int]] = mapped_column(ForeignKey("products.id", ondelete="CASCADE"), nullable=True)
+    customer_segment_id: Mapped[Optional[int]] = mapped_column(ForeignKey("customer_segments.id", ondelete="SET NULL"), nullable=True)
+    min_cart_value: Mapped[float] = mapped_column(Numeric(10, 2), default=0.0, nullable=False)
+    max_discount_amount: Mapped[Optional[float]] = mapped_column(Numeric(10, 2), nullable=True)
+    priority: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    can_stack: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    usage_limit: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    usage_count: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     start_date: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     end_date: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
@@ -127,6 +135,8 @@ class OrderItem(Base):
     sku: Mapped[str] = mapped_column(String(100), nullable=False)
     unit_price: Mapped[float] = mapped_column(Numeric(10, 2), nullable=False)
     quantity: Mapped[int] = mapped_column(Integer, nullable=False)
+    fulfilled_quantity: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    cancelled_quantity: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     total_price: Mapped[float] = mapped_column(Numeric(10, 2), nullable=False)
     fulfillment_status: Mapped[str] = mapped_column(String(50), default="PENDING", nullable=False)
 
@@ -141,6 +151,7 @@ class OrderStatusHistory(Base):
     from_status: Mapped[Optional[OrderStatus]] = mapped_column(SQLEnum(OrderStatus), nullable=True)
     to_status: Mapped[OrderStatus] = mapped_column(SQLEnum(OrderStatus), nullable=False)
     changed_by_id: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
+    actor_role: Mapped[Optional[str]] = mapped_column(String(50), nullable=True)
     comment: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
 
@@ -159,3 +170,14 @@ class OrderCancellation(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
 
     order: Mapped["Order"] = relationship("Order", back_populates="cancellation")
+
+
+class PromotionRedemption(Base):
+    __tablename__ = "promotion_redemptions"
+
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    promotion_id: Mapped[int] = mapped_column(ForeignKey("promotions.id", ondelete="CASCADE"), nullable=False, index=True)
+    order_id: Mapped[Optional[int]] = mapped_column(ForeignKey("orders.id", ondelete="SET NULL"), nullable=True, index=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    discount_amount: Mapped[float] = mapped_column(Numeric(10, 2), nullable=False)
+    redeemed_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
